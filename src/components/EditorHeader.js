@@ -15,9 +15,7 @@ class EditorHeader extends React.Component {
         return (
             <div>
                 <h3>MarkDown Editor</h3>
-                <textarea 
-                    onChange = {this.onChange}
-                    defaultValue = 'Type some texts' />
+                <textarea onChange = {this.onChange} />
             </div>
         );
     }
