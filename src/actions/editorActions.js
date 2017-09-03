@@ -1,13 +1,14 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
-import {TYPE} from '../constants/actionTypes';
+import {TYPING} from '../constants/actionTypes';
 
 export const EditorActions = {
     transformToMD(text) {
-        AppDispatcher.handleAction({
-            type: TYPE,
+        var action = {
+            type: TYPING,
             payload: {
                 text,
             },
-        });
+        };
+        AppDispatcher.handleAction(action);
     },
 };

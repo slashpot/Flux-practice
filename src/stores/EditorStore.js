@@ -1,20 +1,23 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
-import {TYPE} from '../constants/actionTypes';
+import Remarkable from 'remarkable';
+import {TYPING} from '../constants/actionTypes';
 import {EventEmitter} from 'events';
 
-const store = {
-    content: '',
-};
+var content;
 
 class EditorStoreClass extends EventEmitter {
     addChangeListener(callback) {
-        this.on(TYPE, callback);
+        this.on(TYPING, callback);
     }
     removeChangeListener(callback) {
-        this.removeListener(TYPE, callback);
+        this.removeListener(TYPING, callback);
+    }
+    transformToMD(text) {
+        var md = new Remarkable();
+        content = md.render(text);
     }
     getContent() {
-        return store.content;
+        return content;
     }
 }
 
@@ -22,9 +25,9 @@ const EditorStore = new EditorStoreClass();
 
 AppDispatcher.register((action) => {
     switch(action.type) {
-        case TYPE:
-            store.content = action.payload.text;
-            EditorStore.emit(TYPE);
+        case TYPING:
+            EditorStore.transformToMD(action.payload.text);
+            EditorStore.emit(TYPING);
             break;
         default:
             return true;

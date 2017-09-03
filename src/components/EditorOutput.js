@@ -1,34 +1,27 @@
 import React from 'react';
-import Remarkable from 'remarkable';
 import EditorStore from '../stores/EditorStore';
-
-function getInputContent() {
-    return EditorStore.getContent();
-}
 
 class EditorOutput extends React.Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
-        this.state = {text: ""};
+        this.state = {content: ""};
     }
     componentDidMount() {
         EditorStore.addChangeListener(this.onChange);
     }
     onChange() {
-        this.setState({text: getInputContent()});
+        this.setState({content: EditorStore.getContent()});
     }
-    getRawMarkup() {
-        var md = new Remarkable();
-        return { __html: md.render(this.state.text) };
+    getMDContent() {
+        return {__html: this.state.content};
     }
-
     render() {
         return (
             <div>
                 <h3>Output</h3>
-                <div dangerouslySetInnerHTML={this.getRawMarkup()}>
-                </div>
+                <div dangerouslySetInnerHTML={this.getMDContent()}>
+                </div>  
             </div>
         );
     }
